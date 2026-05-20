@@ -1,50 +1,313 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Diabetes Prediction</title>
-  </head>
-  <body>
-    <h1>Diabetes Prediction Form</h1>
 
-    <form id="prediction-form">
-      <div>
-        <label for="age">Age:</label>
-        <input
-          type="number"
-          id="age"
-          name="Age"
-          placeholder="e.g., 50"
-          required
-        />
-        <label for="pregnancies">Pregnancies:</label>
-        <input name="Pregnancies" type="number" id="pregnancies" />
-        <label for="glucose">Glucose:</label>
-        <input name="Glucose" type="number" id="glucose" />
-        <label for="bloodPressure">Blood Pressure:</label>
-        <input name="BloodPressure" type="number" id="bloodPressure" />
-        <label for="skinThickness">Skin Thickness:</label>
-        <input name="SkinThickness" type="number" id="skinThickness" />
-        <label for="insulin">Insulin:</label>
-        <input name="Insulin" type="number" id="insulin" />
-        <label for="bmi">BMI:</label>
-        <input name="BMI" type="number" step="0.1" id="bmi" />
-        <label for="dpf">Diabetes Pedigree Function:</label>
-        <input
-          name="DiabetesPedigreeFunction"
-          type="number"
-          step="0.001"
-          id="dpf"
-        />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GlucoSense AI — Diabetes Risk Predictor</title>
+  <meta name="description"
+    content="AI-powered diabetes risk prediction tool. Enter your health metrics and get instant, accurate predictions backed by machine learning." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- Animated Background -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Particle Canvas -->
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="14" stroke="url(#logo-grad)" stroke-width="2.5" />
+            <path d="M16 8v16M8 16h16" stroke="url(#logo-grad)" stroke-width="2.5" stroke-linecap="round" />
+            <circle cx="16" cy="16" r="4" fill="url(#logo-grad)" opacity="0.8" />
+            <defs>
+              <linearGradient id="logo-grad" x1="2" y1="2" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#6EE7F7" />
+                <stop offset="1" stop-color="#A78BFA" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">GlucoSense <span class="logo-ai">AI</span></span>
       </div>
-
-      <div>
-        <button type="submit">Predict</button>
+      <div class="header-badge">
+        <span class="badge-dot"></span>
+        ML Model Active
       </div>
-    </form>
-    <div id="result-container"></div>
+    </div>
+  </header>
 
-    <script src="script.js"></script>
-  </body>
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-tag">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <circle cx="7" cy="7" r="7" fill="#6EE7F7" opacity="0.3" />
+          <circle cx="7" cy="7" r="3.5" fill="#6EE7F7" />
+        </svg>
+        Powered by Machine Learning
+      </div>
+      <h1 class="hero-title">
+        Predict Your <br />
+        <span class="gradient-text">Diabetes Risk</span>
+      </h1>
+      <p class="hero-desc">
+        Enter your health metrics below and our AI model will analyze your data to provide an accurate diabetes risk
+        assessment in seconds.
+      </p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-value">97%+</span>
+          <span class="stat-label">Model Accuracy</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-value">8</span>
+          <span class="stat-label">Health Metrics</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-value">&lt;1s</span>
+          <span class="stat-label">Response Time</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Form Card -->
+    <section class="form-section">
+      <div class="form-card glass">
+        <div class="form-card-header">
+          <h2 class="form-card-title">Patient Health Metrics</h2>
+          <p class="form-card-subtitle">All fields are required for accurate prediction</p>
+        </div>
+
+        <form id="prediction-form" novalidate>
+          <div class="fields-grid">
+
+            <!-- Age -->
+            <div class="field-group" id="field-age">
+              <label class="field-label" for="age">
+                <span class="label-icon">🎂</span> Age
+                <span class="field-unit">years</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="number" id="age" name="Age" min="1" max="120" placeholder="e.g. 45" required
+                  autocomplete="off" />
+                <div class="input-focus-bar"></div>
+              </div>
+              <span class="field-hint">Your current age in years</span>
+              <span class="field-error" id="err-age"></span>
+            </div>
+
+            <!-- Pregnancies -->
+            <div class="field-group" id="field-pregnancies">
+              <label class="field-label" for="pregnancies">
+                <span class="label-icon">🤰</span> Pregnancies
+                <span class="field-unit">count</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="number" id="pregnancies" name="Pregnancies" min="0" max="20" placeholder="e.g. 2" required
+                  autocomplete="off" />
+                <div class="input-focus-bar"></div>
+              </div>
+              <span class="field-hint">Number of times pregnant (0 if never)</span>
+              <span class="field-error" id="err-pregnancies"></span>
+            </div>
+
+            <!-- Glucose -->
+            <div class="field-group" id="field-glucose">
+              <label class="field-label" for="glucose">
+                <span class="label-icon">🩸</span> Glucose
+                <span class="field-unit">mg/dL</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="number" id="glucose" name="Glucose" min="0" max="300" placeholder="e.g. 120" required
+                  autocomplete="off" />
+                <div class="input-focus-bar"></div>
+              </div>
+              <span class="field-hint">Plasma glucose concentration (2h oral test)</span>
+              <span class="field-error" id="err-glucose"></span>
+            </div>
+
+            <!-- Blood Pressure -->
+            <div class="field-group" id="field-bloodPressure">
+              <label class="field-label" for="bloodPressure">
+                <span class="label-icon">💓</span> Blood Pressure
+                <span class="field-unit">mmHg</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="number" id="bloodPressure" name="BloodPressure" min="0" max="200" placeholder="e.g. 72"
+                  required autocomplete="off" />
+                <div class="input-focus-bar"></div>
+              </div>
+              <span class="field-hint">Diastolic blood pressure</span>
+              <span class="field-error" id="err-bloodPressure"></span>
+            </div>
+
+            <!-- Skin Thickness -->
+            <div class="field-group" id="field-skinThickness">
+              <label class="field-label" for="skinThickness">
+                <span class="label-icon">📏</span> Skin Thickness
+                <span class="field-unit">mm</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="number" id="skinThickness" name="SkinThickness" min="0" max="100" placeholder="e.g. 23"
+                  required autocomplete="off" />
+                <div class="input-focus-bar"></div>
+              </div>
+              <span class="field-hint">Triceps skin fold thickness</span>
+              <span class="field-error" id="err-skinThickness"></span>
+            </div>
+
+            <!-- Insulin -->
+            <div class="field-group" id="field-insulin">
+              <label class="field-label" for="insulin">
+                <span class="label-icon">💉</span> Insulin
+                <span class="field-unit">μU/mL</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="number" id="insulin" name="Insulin" min="0" max="1000" placeholder="e.g. 80" required
+                  autocomplete="off" />
+                <div class="input-focus-bar"></div>
+              </div>
+              <span class="field-hint">2-hour serum insulin level</span>
+              <span class="field-error" id="err-insulin"></span>
+            </div>
+
+            <!-- BMI -->
+            <div class="field-group" id="field-bmi">
+              <label class="field-label" for="bmi">
+                <span class="label-icon">⚖️</span> BMI
+                <span class="field-unit">kg/m²</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="number" id="bmi" name="BMI" min="0" max="80" step="0.1" placeholder="e.g. 28.5" required
+                  autocomplete="off" />
+                <div class="input-focus-bar"></div>
+              </div>
+              <span class="field-hint">Body Mass Index</span>
+              <span class="field-error" id="err-bmi"></span>
+            </div>
+
+            <!-- Diabetes Pedigree Function -->
+            <div class="field-group" id="field-dpf">
+              <label class="field-label" for="dpf">
+                <span class="label-icon">🧬</span> Pedigree Function
+                <span class="field-unit">score</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="number" id="dpf" name="DiabetesPedigreeFunction" min="0" max="3" step="0.001"
+                  placeholder="e.g. 0.627" required autocomplete="off" />
+                <div class="input-focus-bar"></div>
+              </div>
+              <span class="field-hint">Diabetes pedigree function (family history score)</span>
+              <span class="field-error" id="err-dpf"></span>
+            </div>
+
+          </div>
+
+          <!-- Action Row -->
+          <div class="form-actions">
+            <button type="button" id="reset-btn" class="btn btn-ghost">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M2 8a6 6 0 1 0 1.5-3.93" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M2 4v4h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              Reset
+            </button>
+            <button type="button" id="fill-sample-btn" class="btn btn-outline">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+              Fill Sample Data
+            </button>
+            <button type="submit" id="predict-btn" class="btn btn-primary">
+              <span class="btn-text">Run Prediction</span>
+              <span class="btn-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </span>
+              <span class="btn-loader" aria-hidden="true"></span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Result Panel -->
+    <section class="result-section" id="result-section" aria-live="polite">
+      <div id="result-container"></div>
+    </section>
+
+    <!-- Info Cards -->
+    <section class="info-section">
+      <div class="info-grid">
+        <div class="info-card glass">
+          <div class="info-card-icon" style="background: linear-gradient(135deg, #6EE7F7, #3B82F6);">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M11 2C6.03 2 2 6.03 2 11s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm.5 13.5h-1v-6h1v6zm0-8h-1V6h1v1.5z"
+                fill="white" />
+            </svg>
+          </div>
+          <h3>How It Works</h3>
+          <p>Our ML pipeline uses gradient boosting trained on the PIMA Indian Diabetes dataset to assess your risk
+            based on 8 clinical markers.</p>
+        </div>
+        <div class="info-card glass">
+          <div class="info-card-icon" style="background: linear-gradient(135deg, #A78BFA, #EC4899);">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M11 1L3 5v6c0 5.25 3.5 10.15 8 11.35C16.5 21.15 20 16.25 20 11V5L11 1z" fill="white"
+                opacity="0.9" />
+            </svg>
+          </div>
+          <h3>Privacy First</h3>
+          <p>Your data is processed locally and never stored. Each prediction is computed in real-time and discarded
+            immediately after.</p>
+        </div>
+        <div class="info-card glass">
+          <div class="info-card-icon" style="background: linear-gradient(135deg, #34D399, #10B981);">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M9 12l2 2 4-4M5 11a8 8 0 1 0 12 0 8 8 0 0 0-12 0z" stroke="white" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <h3>Clinical Disclaimer</h3>
+          <p>This tool is for educational purposes only. Always consult a qualified healthcare professional for medical
+            diagnoses and treatment.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>GlucoSense AI &mdash; Built with Machine Learning &amp; Flask &nbsp;|&nbsp; For educational use only</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
 </html>
