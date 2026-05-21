@@ -74,7 +74,7 @@ const SAMPLE_DATA = {
   skinThickness: 35, insulin: 0, bmi: 33.6, dpf: 0.627,
 };
 
-const API_URL = 'http://127.0.0.1:5000/predict';
+const API_URL = 'https://diabetes-prediction-api-nas1.onrender.com/predict';
 
 
 // ─── DOM Refs ─────────────────────────────────────────────────
@@ -417,4 +417,4 @@ document.querySelectorAll('.input-wrapper input').forEach(input => {
 
 
 console.log('%cGlucoSense AI 🧬', 'font-size:18px;font-weight:bold;background:linear-gradient(135deg,#6EE7F7,#A78BFA);-webkit-background-clip:text;color:transparent');
-console.log('%cDiabetes Prediction API connected to http://127.0.0.1:5000', 'color:#6EE7F7');
+console.log('%cDiabetes Prediction API connected to https://diabetes-prediction-api-nas1.onrender.com/', 'color:#6EE7F7');
